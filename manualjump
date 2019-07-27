@@ -1,0 +1,149 @@
+#!bin/bash
+
+directory_list=~/.config/manualjump/directory_list
+
+# Get dir path of nth line of directory_list
+# Source: https://stackoverflow.com/a/27056916/9157799
+get_nth_path()
+{
+	echo $(awk -v line=$1 'NR==line' $directory_list)
+}
+
+# Source: https://stackoverflow.com/a/17794626/9157799
+delete_last_dir_path()
+{
+	# Don't split the below code into multiple lines
+	dd if=/dev/null of=$directory_list bs=1 seek=$(echo $(stat --format=%s $directory_list) - $(tail -n1 $directory_list | wc -c) | bc) status=none
+}
+
+# Source: https://superuser.com/a/246841/943615
+insert_dir_path_to_top()
+{
+	echo $1 | cat - $directory_list > temp && mv temp $directory_list
+}
+
+# Source: https://stackoverflow.com/a/12022403/9157799
+number_of_dir_paths()
+{
+	wc -l < $directory_list
+}
+
+# Source: https://askubuntu.com/a/20416/356625
+# Source: https://unix.stackexchange.com/a/207213/307359
+# Source: https://www.computerhope.com/unix/nl.ht
+print_directory_history()
+{
+	sed "s|    ||g;s|$HOME|~|g" <(nl $directory_list)
+}
+
+# Check if the given path already listed
+# Source: https://stackoverflow.com/a/4749368/9157799
+path_already_listed()
+{
+	if grep -Fxq "$1" $directory_list
+	then
+		echo "exist"
+	else
+		echo "notexist"
+	fi
+}
+
+# If you use oh-my-zsh, this will override its 'd' function.
+# Change the 'd' if you like, maybe 'j' or 'jump' or something.
+# I personally use oh-my-zsh and like to keep it this way.
+d()
+{
+	# make sure $directory_list exist
+	if [ ! -f $directory_list ]
+	then
+		touch $directory_list
+	fi
+
+	# if the number of argument is greater than 1
+	if [ $# -gt 1 ]
+	then
+		echo "usage:"
+		echo "\td [dir path number]"
+		echo "\td"
+		return
+	fi
+
+	# if no argument is given
+	if [ $# -eq 0 ]
+	then
+		print_directory_history
+		return
+	fi
+
+	# if the requested path number is not out of range
+	if [[ $1 -le $(number_of_dir_paths) ]] && [[ $1 -ge 1 ]]
+	then
+		cd "$(get_nth_path $1)"
+
+		# PERSONAL PREFERENCE, if you don't like it, just comment it.
+		# automatically list directory content
+		# if there are 30 or less item in it
+		# Source: https://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x700.html
+		if [ $(ls -1 | wc -l) -le 20 ]
+		then
+			ls
+		fi
+	else
+		echo "manualjump: the requested dir path number is out of range"
+	fi
+}
+
+# Source: https://stackoverflow.com/a/5413132/9157799
+delete_nth_dir_path()
+{
+	grep -v "$1" $directory_list > temp; mv temp $directory_list
+}
+
+propose_dir_path()
+{
+	# if it is home directory
+	if [[ "$PWD" == "$HOME" ]]
+	then
+		return
+	fi
+
+	if [[ "$(path_already_listed "$PWD")" == "exist" ]]
+	then
+		delete_nth_dir_path "$PWD"
+	elif [ $(number_of_dir_paths) -ge 10 ]
+	then
+		delete_last_dir_path
+	fi
+	insert_dir_path_to_top "$PWD"
+}
+
+o()
+{
+	if [ $# -eq 1 ]
+	then
+		propose_dir_path
+	fi
+
+	xdg-open "$@"
+}
+
+v()
+{
+	if [ $# -gt 0 ]
+	then
+		propose_dir_path
+	fi
+
+	vim "$@"
+}
+
+alias 1='d 1'
+alias 2='d 2'
+alias 3='d 3'
+alias 4='d 4'
+alias 5='d 5'
+alias 6='d 6'
+alias 7='d 7'
+alias 8='d 8'
+alias 9='d 9'
+alias 0='d 10'
