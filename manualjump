@@ -84,9 +84,9 @@ d()
 		# automatically list directory content
 		# if there are 30 or less item in it
 		# Source: https://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x700.html
-		if [ $(ls -1 | wc -l) -le 20 ]
+		if [ $(ls -A1 | wc -l) -le 20 ]
 		then
-			ls
+			ls -A
 		fi
 	else
 		echo "manualjump: the requested dir path number is out of range"
@@ -94,9 +94,9 @@ d()
 }
 
 # Source: https://stackoverflow.com/a/5413132/9157799
-delete_nth_dir_path()
+delete_a_dir_path()
 {
-	grep -v "$1" $directory_list > temp; mv temp $directory_list
+	grep -Fxv "$1" $directory_list > temp; mv temp $directory_list
 }
 
 propose_dir_path()
@@ -109,7 +109,7 @@ propose_dir_path()
 
 	if [[ "$(path_already_listed "$PWD")" == "exist" ]]
 	then
-		delete_nth_dir_path "$PWD"
+		delete_a_dir_path "$PWD"
 	elif [ $(number_of_dir_paths) -ge 10 ]
 	then
 		delete_last_dir_path
