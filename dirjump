@@ -1,6 +1,26 @@
-#!bin/bash
+#!/usr/bin/env bash
 
-directory_list=~/.config/manualjump/directory_list
+dirjump_command="d"
+# If you use oh-my-zsh, this will override its 'd' function.
+# Change it if you like, maybe 'j' or 'jump' or something.
+# I personally use oh-my-zsh and like to keep it this way.
+
+# If you already use the number 0-9 as aliases,
+# feel free to comment or delete these.
+# You can still use <dirjump_command> [dir path number]
+# to jump through the dir history
+alias 1="$dirjump_command 1"
+alias 2="$dirjump_command 2"
+alias 3="$dirjump_command 3"
+alias 4="$dirjump_command 4"
+alias 5="$dirjump_command 5"
+alias 6="$dirjump_command 6"
+alias 7="$dirjump_command 7"
+alias 8="$dirjump_command 8"
+alias 9="$dirjump_command 9"
+alias 0="$dirjump_command 10" # 50% fewer keystrokes, why not?
+
+directory_list=~/.config/dirjump/directory_list
 
 # Get dir path of nth line of directory_list
 # Source: https://stackoverflow.com/a/27056916/9157799
@@ -48,10 +68,8 @@ path_already_listed()
 	fi
 }
 
-# If you use oh-my-zsh, this will override its 'd' function.
-# Change the 'd' if you like, maybe 'j' or 'jump' or something.
-# I personally use oh-my-zsh and like to keep it this way.
-d()
+alias "$dirjump_command"="dirjump"
+dirjump()
 {
 	# make sure $directory_list exist
 	if [ ! -f $directory_list ]
@@ -62,9 +80,7 @@ d()
 	# if the number of argument is greater than 1
 	if [ $# -gt 1 ]
 	then
-		echo "usage:"
-		echo "\td [dir path number]"
-		echo "\td"
+		echo "usage: $dirjump_command [dir path number]"
 		return
 	fi
 
@@ -89,7 +105,7 @@ d()
 			ls -A
 		fi
 	else
-		echo "manualjump: the requested dir path number is out of range"
+		echo "dirjump: the requested dir path number is out of range"
 	fi
 }
 
@@ -101,7 +117,7 @@ delete_a_dir_path()
 
 propose_dir_path()
 {
-	# if it is home directory
+	# if it is home directory, reject the proposal
 	if [[ "$PWD" == "$HOME" ]]
 	then
 		return
@@ -137,13 +153,16 @@ v()
 	vim "$@"
 }
 
-alias 1='d 1'
-alias 2='d 2'
-alias 3='d 3'
-alias 4='d 4'
-alias 5='d 5'
-alias 6='d 6'
-alias 7='d 7'
-alias 8='d 8'
-alias 9='d 9'
-alias 0='d 10'
+# If using Zsh
+# Source: https://stackoverflow.com/a/9911082/9157799
+if [ -n "$ZSH_VERSION" ]
+then
+	# Source: https://stackoverflow.com/a/3964198/9157799
+	chpwd_functions=(${chpwd_functions[@]} propose_dir_path)
+else
+	cd()
+	{
+		builtin cd "$@" # https://unix.stackexchange.com/a/366974/307359
+		propose_dir_path
+	}
+fi
