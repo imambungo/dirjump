@@ -2,7 +2,7 @@
 
 Easily jump to recently used directories with
 [oh-my-zsh's 'd'](https://superuser.com/a/664139/943615)-like directory history
-that still saved whenever you exit the terminal.
+that still saved whenever you exit the terminal. A directory is considered to be used if you have opened a file or ran [your preferred command](#i-dont-use-vim) in that directory.
 
 ## Usage
 
@@ -10,17 +10,17 @@ that still saved whenever you exit the terminal.
 
 - Show the list of 10 most recent used directory with [`d`](#change-the-main-command).
  
-- Jump to any directory in the list by [typing the number](#alternative-command-to-jump) of the directory in the list. You need to use 0 instead of 10 to jump to the 10th and last directory.
+- Jump to any directory in the list by [typing the number](#alternative-command-to-jump) of the directory in the list. You need to use 0 instead of 10 to jump to the 10th directory.
 
 - A directory path will be put to the top of the list every time you use [`v`](#i-dont-use-vim)([vim](https://www.vim.org/about.php))  to edit files or `o`([xdg-open](https://linux.die.net/man/1/xdg-open)) to open a file from that directory. Or if you like, [every time you visit a directory](#always-put-visited-directory-to-the-history).
 
 ### Additional Feature
 
-- Automatically list all files in the directory you jumped to if it contains 30 or fewer files. You can [turn it off](#dont-list-files-after-jump) if you like.
+- Automatically list all files in the directory you jumped to if it contains 30 or fewer files. You can [disable this feature](#dont-list-files-after-jump) if you like.
         
 ## Personal Preference
 
-You can modify the code to suit your needs. If you follow the [installation guide](#installation), it is located in `~/.config/dirjump/dirjump`.
+You can modify the code to suit your needs. If you follow the [installation guide](#installation), the script is located in `~/.config/dirjump/dirjump`.
 
 ### Change the main command
 
@@ -46,7 +46,7 @@ You can make a spesific command trigger dirjump to put your current directory to
 alias <yourcommand alias>="propose_dir_path && <yourcommand> " # make sure you put a space before the closing double quote
 ```
 
-Here's an example to make `vsc` an alias of [`code`](https://askubuntu.com/a/852086/356625)(Visual Studio Code):
+Here's an example to make `vsc` an alias of `code`([the command to run VSCode](https://askubuntu.com/a/852086/356625)):
 
 ```bash
 alias vsc="propose_dir_path && code "
@@ -54,7 +54,7 @@ alias vsc="propose_dir_path && code "
 
 ### Always put visited directory to the history
 
-If you want dirjump to always put visited directory to the history, add the following snippet to the end of the script:
+This is not recommended but if you want dirjump to always put visited directory to the history, add the following snippet to the end of the script:
 
 ```bash
 
