@@ -2,7 +2,7 @@
 
 Easily jump to recently used directories with
 [oh-my-zsh's 'd'](https://superuser.com/a/664139/943615)-like directory history
-that still saved whenever you exit the terminal. A directory is considered to be used if you have opened a file or ran [your preferred command](#i-dont-use-vim) in that directory.
+that still saved after exiting the terminal. A directory is considered to be used if you have opened a file or ran [your preferred command](#i-dont-use-vim) in that directory.
 
 ## Usage
 
@@ -18,6 +18,10 @@ that still saved whenever you exit the terminal. A directory is considered to be
 
 - Automatically list all files in the directory you jumped to if it contains 30 or fewer files. You can [disable this feature](#dont-list-files-after-jump) if you like.
         
+### Dirjump in action
+
+![dirjump in action](dirjumpinaction.gif)
+
 ## Personal Preference
 
 You can modify the code to suit your needs. If you follow the [installation guide](#installation), the script is located in `~/.config/dirjump/dirjump`.
@@ -36,7 +40,7 @@ By default, you can also jump with `<main command> <directory number>`:
 ```
 d 8
 ```
-If you already used any number as aliases, just delete or comment out the code from [line 12 to 22](https://github.com/imambungo/dirjump/blob/3ea9b91485a8b2b217d411b0c7eb3cad1821a483/dirjump#L12).
+If you already used any number as aliases, just delete or comment out the code from [line 12 to 22](https://github.com/imambungo/dirjump/blob/master/dirjump#L12).
 
 ### I don't use Vim
 
