@@ -103,4 +103,4 @@ fi
 
    If you use Zsh:
    
-        grep -Fxv "source ~/.config/dirjump/dirjump" ~/.bashrc > temp; mv temp ~/.zshrc
+        grep -Fxv "source ~/.config/dirjump/dirjump" ~/.zshrc > temp; mv temp ~/.zshrc

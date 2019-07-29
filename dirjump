@@ -19,6 +19,7 @@ alias 7="$dirjump_command 7"
 alias 8="$dirjump_command 8"
 alias 9="$dirjump_command 9"
 alias 0="$dirjump_command 10" # 50% fewer keystrokes, why not?
+alias 10="dirjump: use 0 to jump to the 10th directory"
 
 directory_list=~/.config/dirjump/directory_list
 
@@ -145,6 +146,7 @@ o()
 
 v()
 {
+	# propose dir path if vim is used to edit existing files
 	if [ $# -gt 0 ]
 	then
 		propose_dir_path
@@ -152,17 +154,3 @@ v()
 
 	vim "$@"
 }
-
-# If using Zsh
-# Source: https://stackoverflow.com/a/9911082/9157799
-if [ -n "$ZSH_VERSION" ]
-then
-	# Source: https://stackoverflow.com/a/3964198/9157799
-	chpwd_functions=(${chpwd_functions[@]} propose_dir_path)
-else
-	cd()
-	{
-		builtin cd "$@" # https://unix.stackexchange.com/a/366974/307359
-		propose_dir_path
-	}
-fi
