@@ -81,13 +81,17 @@ fi
 
 [Here](https://github.com/imambungo/dirjump/blob/3ea9b91485a8b2b217d411b0c7eb3cad1821a483/dirjump#L99), just delete it.
 
+### Um... only 10??
+
+[There](https://github.com/imambungo/dirjump/blob/master/dirjump#L26) you go.
+
 ## Installation
 
 1. Download the script.
 
         curl --create-dirs -o ~/.config/dirjump/dirjump https://raw.githubusercontent.com/imambungo/dirjump/master/dirjump
 
-2. Source the script to your shell.
+2. Source the script to your shell. Don't forget to restart your terminal afterward.
 
         echo 'source ~/.config/dirjump/dirjump' >> ~/.bashrc
 

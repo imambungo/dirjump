@@ -23,30 +23,35 @@ alias 10="dirjump: use 0 to jump to the 10th directory"
 
 directory_list=~/.config/dirjump/directory_list
 
+history_size=10
+# Recommendation:
+# in the range 5-20
+# not more than 50 (any directories beyond 50 is not "recent" directories anymore)
+
 # Get dir path of nth line of directory_list
 # Source: https://stackoverflow.com/a/27056916/9157799
 get_nth_path()
 {
-	echo $(awk -v line=$1 'NR==line' $directory_list)
+	echo $(awk -v line=$1 'NR==line' "$directory_list")
 }
 
-# Source: https://stackoverflow.com/a/17794626/9157799
-delete_last_dir_path()
+# delete all directories whose numbers exceed the specified limit
+# Source: https://stackoverflow.com/q/45125826/9157799
+apply_max_limit_to_history()
 {
-	# Don't split the below code into multiple lines
-	dd if=/dev/null of=$directory_list bs=1 seek=$(echo $(stat --format=%s $directory_list) - $(tail -n1 $directory_list | wc -c) | bc) status=none
+	head -"$history_size" "$directory_list" > temp; mv temp "$directory_list"
 }
 
 # Source: https://superuser.com/a/246841/943615
 insert_dir_path_to_top()
 {
-	echo $1 | cat - $directory_list > temp && mv temp $directory_list
+	echo $1 | cat - "$directory_list" > temp && mv temp "$directory_list"
 }
 
 # Source: https://stackoverflow.com/a/12022403/9157799
 number_of_dir_paths()
 {
-	wc -l < $directory_list
+	wc -l < "$directory_list"
 }
 
 # Source: https://askubuntu.com/a/20416/356625
@@ -54,14 +59,14 @@ number_of_dir_paths()
 # Source: https://www.computerhope.com/unix/nl.ht
 print_directory_history()
 {
-	sed "s|    ||g;s|$HOME|~|g" <(nl $directory_list)
+	sed "s|    ||g;s|$HOME|~|g" <(nl "$directory_list")
 }
 
 # Check if the given path already listed
 # Source: https://stackoverflow.com/a/4749368/9157799
 path_already_listed()
 {
-	if grep -Fxq "$1" $directory_list
+	if grep -Fxq "$1" "$directory_list"
 	then
 		echo "exist"
 	else
@@ -73,9 +78,9 @@ alias "$dirjump_command"="dirjump"
 dirjump()
 {
 	# make sure $directory_list exist
-	if [ ! -f $directory_list ]
+	if [ ! -f "$directory_list" ]
 	then
-		touch $directory_list
+		touch "$directory_list"
 	fi
 
 	# if the number of argument is greater than 1
@@ -113,7 +118,7 @@ dirjump()
 # Source: https://stackoverflow.com/a/5413132/9157799
 delete_a_dir_path()
 {
-	grep -Fxv "$1" $directory_list > temp; mv temp $directory_list
+	grep -Fxv "$1" "$directory_list" > temp; mv temp "$directory_list"
 }
 
 propose_dir_path()
@@ -127,11 +132,10 @@ propose_dir_path()
 	if [[ "$(path_already_listed "$PWD")" == "exist" ]]
 	then
 		delete_a_dir_path "$PWD"
-	elif [ $(number_of_dir_paths) -ge 10 ]
-	then
-		delete_last_dir_path
 	fi
+
 	insert_dir_path_to_top "$PWD"
+	apply_max_limit_to_history
 }
 
 o()
