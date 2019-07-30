@@ -17,6 +17,7 @@ that still saved after exiting the terminal. A directory is considered to be use
 ### Additional Feature
 
 - Automatically list all files in the directory you jumped to if it contains 30 or fewer files. You can [disable this feature](#dont-list-files-after-jump) if you like.
+- Home or `~/` is never added to the history (we can just type `cd`).
         
 ### Dirjump in action
 
@@ -82,11 +83,11 @@ fi
 
 ## Installation
 
-1. Download the script
+1. Download the script.
 
         curl --create-dirs -o ~/.config/dirjump/dirjump https://raw.githubusercontent.com/imambungo/dirjump/master/dirjump
 
-2. Source the script to your shell
+2. Source the script to your shell.
 
         echo 'source ~/.config/dirjump/dirjump' >> ~/.bashrc
 
@@ -96,15 +97,15 @@ fi
 
 ## Uninstallation
 
-1. Delete the script and the directory history file
+1. Delete the script and the directory history file.
 
         rm -rf ~/.config/dirjump
 
-2. [Unsource](https://stackoverflow.com/a/5413132/9157799
-) the script from your shell
+2. [Unsource](https://stackoverflow.com/a/5413132/9157799) the script from your shell.
 
         grep -Fxv "source ~/.config/dirjump/dirjump" ~/.bashrc > temp; mv temp ~/.bashrc
 
    If you use Zsh:
    
         grep -Fxv "source ~/.config/dirjump/dirjump" ~/.zshrc > temp; mv temp ~/.zshrc
+                                                        #####
