@@ -5,28 +5,26 @@ dirjump_command="d"
 # Change it if you like, maybe 'j' or 'jump' or something.
 # I personally use oh-my-zsh and like to keep it this way.
 
-# If you already use the number 0-9 as aliases,
-# feel free to comment or delete these.
-# You can still use <dirjump_command> [dir path number]
-# to jump through the dir history
-alias 1="$dirjump_command 1"
-alias 2="$dirjump_command 2"
-alias 3="$dirjump_command 3"
-alias 4="$dirjump_command 4"
-alias 5="$dirjump_command 5"
-alias 6="$dirjump_command 6"
-alias 7="$dirjump_command 7"
-alias 8="$dirjump_command 8"
-alias 9="$dirjump_command 9"
-alias 0="$dirjump_command 10" # 50% fewer keystrokes, why not?
-alias 10="dirjump: use 0 to jump to the 10th directory"
-
-directory_list=~/.config/dirjump/directory_list
-
 history_size=10
 # Recommendation:
 # in the range 5-20
 # not more than 50 (any directories beyond 50 is not "recent" directories anymore)
+
+# If you already use the number 0-9 as aliases,
+# feel free to comment or delete these.
+# You can still use <dirjump_command> [dir path number]
+# to jump through the dir history
+# Source: https://unix.stackexchange.com/a/203160/307359
+i=0
+while [ $i -le $history_size ]
+do
+	alias $i="$dirjump_command $i"
+	i=`expr $i + 1`
+done
+alias 0="$dirjump_command 10" # 50% fewer keystrokes, why not?
+alias 10='echo "dirjump: use 0 to jump to the 10th directory"'
+
+directory_list=~/.config/dirjump/directory_list
 
 # Get dir path of nth line of directory_list
 # Source: https://stackoverflow.com/a/27056916/9157799
@@ -102,11 +100,11 @@ dirjump()
 	then
 		cd "$(get_nth_path $1)"
 
-		# PERSONAL PREFERENCE, if you don't like it, just comment it.
+		# PERSONAL PREFERENCE, if you don't want it, just comment it out.
 		# automatically list directory content
 		# if there are 30 or less item in it
 		# Source: https://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x700.html
-		if [ $(ls -A1 | wc -l) -le 20 ]
+		if [ $(ls -A1 | wc -l) -le 30 ]
 		then
 			ls -A
 		fi

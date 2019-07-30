@@ -41,7 +41,7 @@ By default, you can also jump with `<main command> <directory number>`:
 ```
 d 8
 ```
-If you already used any number as aliases, just delete or comment out the code from [line 12 to 22](https://github.com/imambungo/dirjump/blob/master/dirjump#L12).
+If you already used any number as aliases, just delete or comment out the code from [line 18 to 25](https://github.com/imambungo/dirjump/blob/master/dirjump#L13).
 
 ### I don't use Vim
 
@@ -79,11 +79,11 @@ fi
 
 ### Don't list files after jump
 
-[Here](https://github.com/imambungo/dirjump/blob/3ea9b91485a8b2b217d411b0c7eb3cad1821a483/dirjump#L99), just delete it.
+[Here](https://github.com/imambungo/dirjump/blob/master/dirjump#L103), just delete it.
 
 ### Um... only 10??
 
-[There](https://github.com/imambungo/dirjump/blob/master/dirjump#L26) you go.
+[There](https://github.com/imambungo/dirjump/blob/master/dirjump#L8) you go.
 
 ## Installation
 
