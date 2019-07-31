@@ -8,7 +8,7 @@ that still saved after exiting the terminal. A directory is considered to be use
 
 ### Main Feature
 
-- Show the list of 10 most recent used directory with [`d`](#change-the-main-command).
+- Show the list of 10 most recent used directories with [`d`](#change-the-main-command).
  
 - Jump to any directory in the list by [typing the number](#alternative-command-to-jump) of the directory in the list. You need to use 0 instead of 10 to jump to the 10th directory.
 
@@ -113,3 +113,8 @@ fi
    
         grep -Fxv "source ~/.config/dirjump/dirjump" ~/.zshrc > temp; mv temp ~/.zshrc
                                                         #####
+
+## Contributing
+
+If you found bugs, typos, wrong grammar, or have any suggestion or question,
+feel free to create a new [issue](https://github.com/imambungo/dirjump/issues).

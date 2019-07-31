@@ -8,11 +8,11 @@ dirjump_command="d"
 history_size=10
 # Recommendation:
 # in the range 5-20
-# not more than 50 (any directories beyond 50 is not "recent" directories anymore)
+# not more than 50 (it is just not "recent" directories anymore)
 
 # If you already use the number 0-9 as aliases,
-# feel free to comment or delete these.
-# You can still use <dirjump_command> [dir path number]
+# feel free to comment out or delete these.
+# You can still use <dirjump_command> <dir path number>
 # to jump through the dir history
 # Source: https://unix.stackexchange.com/a/203160/307359
 i=0
