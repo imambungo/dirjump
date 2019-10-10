@@ -25,9 +25,23 @@ alias 0="$dirjump_command 10" # 50% fewer keystrokes, why not?
 alias 10='echo "dirjump: use 0 to jump to the 10th directory"'
 
 directory_list=~/.config/dirjump/directory_list
-
+last_dir_remove=~/.config/dirjump/last_dir_remove
 # Get dir path of nth line of directory_list
 # Source: https://stackoverflow.com/a/27056916/9157799
+function last_del()
+{
+        time_del=`cat "$last_dir_remove"`
+        curr_time=`date +%s`
+        delta_hour=`echo "($curr_time-$time_del)/3600|bc"`
+        if [[ "$delta_hour" -gt 1 ]]
+        then
+        echo "A path was last removed $delta_hour hours ago."
+        else
+        echo "A path was last removed $delta_hour seconds ago."
+        fi
+
+}
+
 get_nth_path()
 {
 	echo $(awk -v line=$1 'NR==line' "$directory_list")
@@ -111,12 +125,17 @@ dirjump()
 	else
 		echo "dirjump: the requested dir path number is out of range"
 	fi
+	if [[ -f "$last_del" ]]
+	then
+        last_del
+        fi
 }
 
 # Source: https://stackoverflow.com/a/5413132/9157799
 delete_a_dir_path()
 {
 	grep -Fxv "$1" "$directory_list" > temp; mv temp "$directory_list"
+	date +%s > "$last_dir_remove"
 }
 
 propose_dir_path()
@@ -153,6 +172,5 @@ v()
 	then
 		propose_dir_path
 	fi
-
 	vim "$@"
 }
