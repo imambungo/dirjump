@@ -135,7 +135,6 @@ dirjump()
 delete_a_dir_path()
 {
 	grep -Fxv "$1" "$directory_list" > temp; mv temp "$directory_list"
-	date +%s > "$last_dir_remove"
 }
 
 propose_dir_path()
@@ -152,7 +151,11 @@ propose_dir_path()
 	fi
 
 	insert_dir_path_to_top "$PWD"
+	if [[ number_of_dir_paths -gt "$history_size" ]]
+	then
 	apply_max_limit_to_history
+	date +%s > "$last_dir_remove"
+	fi
 }
 
 o()
