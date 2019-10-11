@@ -166,10 +166,10 @@ propose_dir_path()
 	fi
 
 	insert_dir_path_to_top "$PWD"
-	if [[ number_of_dir_paths -gt "$history_size" ]]
+	if [[ `number_of_dir_paths` -gt "$history_size" ]]
 	then
-	apply_max_limit_to_history
-	date +%s > "$last_dir_remove"
+		apply_max_limit_to_history
+		date +%s > "$last_dir_remove"
 	fi
 }
 
