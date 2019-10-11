@@ -25,6 +25,33 @@ alias 0="$dirjump_command 10" # 50% fewer keystrokes, why not?
 alias 10='echo "dirjump: use 0 to jump to the 10th directory"'
 
 directory_list=~/.config/dirjump/directory_list
+last_dir_remove=~/.config/dirjump/last_dir_remove
+function last_del()
+{
+	time_del=`cat "$last_dir_remove"`
+	curr_time=`date +%s`
+	delta_hour=`echo "($curr_time-$time_del)/3600" | bc`
+	if [ "$delta_hour" -ge 1 ]
+	then
+		if [ "$delta_hour" -eq 1 ]
+		then
+			echo "A path was last removed an hour ago."
+		else
+			echo "A path was last removed $delta_hour hours ago."
+		fi
+	else
+		delta_minute=`echo "($curr_time-$time_del)/60" | bc`
+		if [ "$delta_minute" -eq 0 ]
+		then
+			echo "A path was last removed just now."
+		elif [ "$delta_minute" -eq 1 ]
+		then
+			echo "A path was last removed a minute ago."
+		else
+			echo "A path was last removed $delta_minute minutes ago."
+		fi
+	fi
+}
 
 # Get dir path of nth line of directory_list
 # Source: https://stackoverflow.com/a/27056916/9157799
@@ -92,6 +119,12 @@ dirjump()
 	if [ $# -eq 0 ]
 	then
 		print_directory_history
+
+		if [ -f "$last_dir_remove" ]
+		then
+			last_del
+		fi
+
 		return
 	fi
 
@@ -133,7 +166,11 @@ propose_dir_path()
 	fi
 
 	insert_dir_path_to_top "$PWD"
-	apply_max_limit_to_history
+	if [[ `number_of_dir_paths` -gt "$history_size" ]]
+	then
+		apply_max_limit_to_history
+		date +%s > "$last_dir_remove"
+	fi
 }
 
 o()
@@ -153,6 +190,5 @@ v()
 	then
 		propose_dir_path
 	fi
-
 	vim "$@"
 }
