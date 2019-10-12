@@ -18,6 +18,7 @@ that still saved after exiting the terminal. A directory is considered to be use
 
 - Automatically list all files in the directory you jumped to if it contains 30 or fewer files. You can [disable this feature](#dont-list-files-after-jump) if you like.
 - Home or `~/` is never added to the history (we can just type `cd`).
+- Shows the last time a path was removed from the history.
         
 ### Dirjump in action
 
