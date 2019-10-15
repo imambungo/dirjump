@@ -152,6 +152,21 @@ delete_a_dir_path()
 	grep -Fxv "$1" "$directory_list" > temp; mv temp "$directory_list"
 }
 
+delete_paths_that_no_longer_exist()
+{
+# iterate $directory_list
+while IFS="" read -r p || [ -n "$p" ]
+do
+  
+  if [[ ! -d $p ]]; then
+  	# if the dir doesn't exists, it's deleted from $directory_list
+  	printf '%s\n' "Deleting \"$p\" from directory_list"
+  	sed -i "\?^$p\$?d" $directory_list
+  fi
+done < $directory_list
+
+}
+
 propose_dir_path()
 {
 	# if it is home directory, reject the proposal
