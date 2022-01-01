@@ -62,13 +62,15 @@ get_nth_path()
 # Source: https://stackoverflow.com/q/45125826/9157799
 apply_max_limit_to_history()
 {
-	head -"$history_size" "$directory_list" > temp; mv temp "$directory_list"
+	head -"$history_size" "$directory_list" > ~/.dirjump.temp
+	mv ~/.dirjump.temp "$directory_list"
 }
 
 # Source: https://superuser.com/a/246841/943615
 insert_dir_path_to_top()
 {
-	echo $1 | cat - "$directory_list" > temp && mv temp "$directory_list"
+	echo $1 | cat - "$directory_list" > ~/.dirjump.temp
+	mv ~/.dirjump.temp "$directory_list"
 }
 
 # Source: https://stackoverflow.com/a/12022403/9157799
@@ -148,7 +150,8 @@ dirjump()
 # Source: https://stackoverflow.com/a/5413132/9157799
 delete_a_dir_path()
 {
-	grep -Fxv "$1" "$directory_list" > temp; mv temp "$directory_list"
+	grep -Fxv "$1" "$directory_list" > ~/.dirjump.temp
+	mv ~/.dirjump.temp "$directory_list"
 }
 
 delete_paths_that_no_longer_exist()
