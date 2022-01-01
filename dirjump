@@ -84,10 +84,10 @@ number_of_dir_paths()
 
 # Source: https://askubuntu.com/a/20416/356625
 # Source: https://unix.stackexchange.com/a/207213/307359
-# Source: https://www.computerhope.com/unix/nl.ht
+# Source: https://www.computerhope.com/unix/nl.htm
 print_directory_history()
 {
-	sed "s|    ||g;s|$HOME|~|g" <(nl "$directory_list")
+	nl "$directory_list" | sed "s|    ||g; s|	|  |g; s|$HOME|~|g"
 }
 
 # Check if the given path already listed
