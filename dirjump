@@ -185,22 +185,15 @@ propose_dir_path()
 	fi
 }
 
-o()
-{
-	if [ $# -eq 1 ]
-	then
+# If using Zsh
+if [ -n "$ZSH_VERSION" ]
+then
+	# Source: https://stackoverflow.com/a/3964198/9157799
+	chpwd_functions=(${chpwd_functions[@]} propose_dir_path)
+else
+	cd()
+	{
+		builtin cd "$@" # https://unix.stackexchange.com/a/366974/307359
 		propose_dir_path
-	fi
-
-	xdg-open "$@"
-}
-
-v()
-{
-	# propose dir path if vim is used to edit existing files
-	if [ $# -gt 0 ]
-	then
-		propose_dir_path
-	fi
-	vim "$@"
-}
+	}
+fi

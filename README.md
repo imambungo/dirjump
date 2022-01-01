@@ -2,7 +2,7 @@
 
 Easily jump to recently used directories with
 [oh-my-zsh's 'd'](https://superuser.com/a/664139/943615)-like directory history
-that still saved after exiting the terminal. A directory is considered to be used if you have opened a file or ran [your preferred command](#i-dont-use-vim) in that directory.
+that still saved after exiting the terminal.
 
 ## Usage
 
@@ -12,7 +12,7 @@ that still saved after exiting the terminal. A directory is considered to be use
  
 - Jump to any directory in the list by [typing the number](#alternative-command-to-jump) of the directory in the list.
 
-- A directory path will be put to the top of the list every time you use [`v`](#i-dont-use-vim)([vim](https://www.vim.org/about.php))  to edit files or `o`([xdg-open](https://linux.die.net/man/1/xdg-open)) to open a file from that directory. Or if you like, [every time you visit a directory](#always-put-visited-directory-to-the-history).
+- A directory path will be put to the top of the list every time you visit a directory.
 
 ### Additional Feature
 
@@ -43,40 +43,6 @@ By default, you can also jump with `<main command> <directory number>`:
 d 8
 ```
 If you already used any number as aliases, just delete or comment out the code from [line 18 to 25](https://github.com/imambungo/dirjump/blob/master/dirjump#L13).
-
-### I don't use Vim
-
-You can make a spesific command trigger dirjump to put your current directory to the directory history by adding the following line to the end of the script:
-
-```
-alias <yourcommand alias>="propose_dir_path && <yourcommand> " # make sure you put a space before the closing double quote
-```
-
-Here's an example to make `vsc` an alias of `code`([the command to run VSCode](https://askubuntu.com/a/852086/356625)):
-
-```bash
-alias vsc="propose_dir_path && code "
-```
-
-### Always put visited directory to the history
-
-This is not recommended but if you want dirjump to always put visited directory to the history, add the following snippet to the end of the script:
-
-```bash
-
-# If using Zsh
-if [ -n "$ZSH_VERSION" ]
-then
-	# Source: https://stackoverflow.com/a/3964198/9157799
-	chpwd_functions=(${chpwd_functions[@]} propose_dir_path)
-else
-	cd()
-	{
-		builtin cd "$@" # https://unix.stackexchange.com/a/366974/307359
-		propose_dir_path
-	}
-fi
-```
 
 ### Don't list files after jump
 
