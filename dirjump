@@ -3,7 +3,6 @@
 dirjump_command="d"
 # If you use oh-my-zsh, this will override its 'd' function.
 # Change it if you like, maybe 'j' or 'jump' or something.
-# I personally use oh-my-zsh and like to keep it this way.
 
 history_size=10
 # Recommendation:
@@ -22,31 +21,35 @@ do
 	i=`expr $i + 1`
 done
 
-directory_list=~/.config/dirjump/directory_list
-last_dir_remove=~/.config/dirjump/last_dir_remove
-function last_del()
+directory_list=~/.local/share/dirjump/directory_list
+last_dir_pop_time=~/.local/share/dirjump/last_dir_pop_time
+
+mkdir --parent "$(dirname $directory_list)"
+touch "$directory_list"
+
+function print_last_dir_pop_time()
 {
-	time_del=`cat "$last_dir_remove"`
+	time_del=`cat "$last_dir_pop_time"`
 	curr_time=`date +%s`
 	delta_hour=`echo "($curr_time-$time_del)/3600" | bc`
 	if [ "$delta_hour" -ge 1 ]
 	then
 		if [ "$delta_hour" -eq 1 ]
 		then
-			echo "A path was last removed an hour ago."
+			echo "A path was last last popped out an hour ago."
 		else
-			echo "A path was last removed $delta_hour hours ago."
+			echo "A path was last last popped out $delta_hour hours ago."
 		fi
 	else
 		delta_minute=`echo "($curr_time-$time_del)/60" | bc`
 		if [ "$delta_minute" -eq 0 ]
 		then
-			echo "A path was last removed just now."
+			echo "A path was last last popped out just now."
 		elif [ "$delta_minute" -eq 1 ]
 		then
-			echo "A path was last removed a minute ago."
+			echo "A path was last last popped out a minute ago."
 		else
-			echo "A path was last removed $delta_minute minutes ago."
+			echo "A path was last last popped out $delta_minute minutes ago."
 		fi
 	fi
 }
@@ -102,12 +105,6 @@ path_already_listed()
 alias "$dirjump_command"="dirjump"
 dirjump()
 {
-	# make sure $directory_list exist
-	if [ ! -f "$directory_list" ]
-	then
-		touch "$directory_list"
-	fi
-
 	# if the number of argument is greater than 1
 	if [ $# -gt 1 ]
 	then
@@ -121,9 +118,9 @@ dirjump()
 		delete_paths_that_no_longer_exist
 		print_directory_history
 
-		if [ -f "$last_dir_remove" ]
+		if [ -f "$last_dir_pop_time" ]
 		then
-			last_del
+			print_last_dir_pop_time
 		fi
 
 		return
@@ -184,7 +181,7 @@ propose_dir_path()
 	if [[ `number_of_dir_paths` -gt "$history_size" ]]
 	then
 		apply_max_limit_to_history
-		date +%s > "$last_dir_remove"
+		date +%s > "$last_dir_pop_time"
 	fi
 }
 
