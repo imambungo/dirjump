@@ -21,8 +21,6 @@ do
 	alias $i="$dirjump_command $i"
 	i=`expr $i + 1`
 done
-alias 0="$dirjump_command 10" # 50% fewer keystrokes, why not?
-alias 10='echo "dirjump: use 0 to jump to the 10th directory"'
 
 directory_list=~/.config/dirjump/directory_list
 last_dir_remove=~/.config/dirjump/last_dir_remove

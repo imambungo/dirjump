@@ -10,7 +10,7 @@ that still saved after exiting the terminal. A directory is considered to be use
 
 - Show the list of 10 most recent used directories with [`d`](#change-the-main-command).
  
-- Jump to any directory in the list by [typing the number](#alternative-command-to-jump) of the directory in the list. You need to use 0 instead of 10 to jump to the 10th directory.
+- Jump to any directory in the list by [typing the number](#alternative-command-to-jump) of the directory in the list.
 
 - A directory path will be put to the top of the list every time you use [`v`](#i-dont-use-vim)([vim](https://www.vim.org/about.php))  to edit files or `o`([xdg-open](https://linux.die.net/man/1/xdg-open)) to open a file from that directory. Or if you like, [every time you visit a directory](#always-put-visited-directory-to-the-history).
 
