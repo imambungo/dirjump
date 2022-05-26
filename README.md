@@ -41,11 +41,11 @@ By default, you can also jump with `<main command> <directory number>`:
 ```
 d 8
 ```
-If you already used any number as aliases, just delete or comment out the code from [line 18 to 25](https://github.com/imambungo/dirjump/blob/master/dirjump#L13).
+If you already used any number as aliases, just delete or comment out the code from [line 17 to 22](https://github.com/imambungo/dirjump/blob/master/dirjump#L12).
 
 ### Um... only 10??
 
-[There](https://github.com/imambungo/dirjump/blob/master/dirjump#L8) you go.
+[There](https://github.com/imambungo/dirjump/blob/master/dirjump#L7) you go.
 
 ## Installation
 
