@@ -19,9 +19,9 @@ that still saved after exiting the terminal.
 - Home or `~/` is never added to the history (we can just type `cd`).
 - Shows the last time a path was popped out from the history. This information may help you adjust the history size to better suit your need. To change the history size, refer to [this section](#um-only-10)
         
-### Dirjump in action
+### Screenshot
 
-![dirjump in action](dirjumpinaction.gif)
+![](dirjump_screenshot.png)
 
 ## Personal Preference
 
