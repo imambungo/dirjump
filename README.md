@@ -16,7 +16,6 @@ that still saved after exiting the terminal.
 
 ### Additional Feature
 
-- Automatically list all files in the directory you jumped to if it contains 30 or fewer files. You can [disable this feature](#dont-list-files-after-jump) if you like.
 - Home or `~/` is never added to the history (we can just type `cd`).
 - Shows the last time a path was popped out from the history. This information may help you adjust the history size to better suit your need. To change the history size, refer to [this section](#um-only-10)
         
@@ -43,10 +42,6 @@ By default, you can also jump with `<main command> <directory number>`:
 d 8
 ```
 If you already used any number as aliases, just delete or comment out the code from [line 18 to 25](https://github.com/imambungo/dirjump/blob/master/dirjump#L13).
-
-### Don't list files after jump
-
-[Here](https://github.com/imambungo/dirjump/blob/master/dirjump#L103), just delete it.
 
 ### Um... only 10??
 
