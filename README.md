@@ -1,3 +1,5 @@
+Not maintained anymore. I use [zoxide](https://github.com/ajeetdsouza/zoxide) now.
+
 # dirjump
 
 Easily jump to recently used directories with
