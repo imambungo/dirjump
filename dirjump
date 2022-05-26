@@ -164,7 +164,7 @@ delete_paths_that_no_longer_exist()
 	done < $directory_list
 }
 
-propose_dir_path()
+__propose_dir_path()
 {
 	# if it is home directory, reject the proposal
 	if [[ "$PWD" == "$HOME" ]]
@@ -189,11 +189,11 @@ propose_dir_path()
 if [ -n "$ZSH_VERSION" ]
 then
 	# Source: https://stackoverflow.com/a/3964198/9157799
-	chpwd_functions=(${chpwd_functions[@]} propose_dir_path)
+	chpwd_functions=(${chpwd_functions[@]} __propose_dir_path)
 else
-	cd()
-	{
-		builtin cd "$@" # https://unix.stackexchange.com/a/366974/307359
-		propose_dir_path
+	__dirjump_hook() {
+		# https://askubuntu.com/a/97766/356625
+		[[ "${__dirjump_prev_wd:=$PWD}" != "$PWD" ]] && __propose_dir_path; __dirjump_prev_wd="$PWD"
 	}
+	PROMPT_COMMAND="$PROMPT_COMMAND;__dirjump_hook"
 fi
